@@ -1,5 +1,6 @@
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
+import { usePickerKeyboard } from "../hooks/usePickerKeyboard";
 
 interface AutocompleteSelectProps<T> {
   label: string;
@@ -35,6 +36,7 @@ function AutocompleteSelect<T>({
   disableClearable,
   sx,
 }: AutocompleteSelectProps<T>) {
+  const { inputMode, onArrowPointerDown, onTextPointerDown } = usePickerKeyboard();
   return (
     <Autocomplete
       options={options}
@@ -46,8 +48,16 @@ function AutocompleteSelect<T>({
       fullWidth={fullWidth}
       disableClearable={disableClearable}
       sx={sx}
+      slotProps={{ popupIndicator: { onPointerDown: onArrowPointerDown } }}
       renderInput={(params) => (
-        <TextField {...params} label={label} required={required} helperText={helperText} placeholder={placeholder} />
+        <TextField
+          {...params}
+          label={label}
+          required={required}
+          helperText={helperText}
+          placeholder={placeholder}
+          slotProps={{ ...params.slotProps, htmlInput: { ...params.slotProps.htmlInput, inputMode, onPointerDown: onTextPointerDown } }}
+        />
       )}
     />
   );

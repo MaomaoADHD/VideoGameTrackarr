@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import type { AutocompleteGetItemProps } from "@mui/material/useAutocomplete";
+import { usePickerKeyboard } from "../hooks/usePickerKeyboard";
 
 interface AutocompleteMultiSelectProps<T> {
   label: string;
@@ -35,6 +36,7 @@ function AutocompleteMultiSelect<T>({
   sx,
   renderValue,
 }: AutocompleteMultiSelectProps<T>) {
+  const { inputMode, onArrowPointerDown, onTextPointerDown } = usePickerKeyboard();
   return (
     <Autocomplete
       multiple
@@ -46,8 +48,16 @@ function AutocompleteMultiSelect<T>({
       disabled={disabled}
       fullWidth={fullWidth}
       sx={sx}
+      slotProps={{ popupIndicator: { onPointerDown: onArrowPointerDown } }}
       renderValue={renderValue}
-      renderInput={(params) => <TextField {...params} label={label} placeholder={value.length ? undefined : placeholder} />}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label={label}
+          placeholder={value.length ? undefined : placeholder}
+          slotProps={{ ...params.slotProps, htmlInput: { ...params.slotProps.htmlInput, inputMode, onPointerDown: onTextPointerDown } }}
+        />
+      )}
     />
   );
 }
