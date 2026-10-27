@@ -29,7 +29,6 @@ import type {
 } from "../api/types";
 import AutocompleteMultiSelect from "./AutocompleteMultiSelect";
 import AutocompleteSelect from "./AutocompleteSelect";
-import SavedGameFilters, { type SavedGameFiltersProps } from "./SavedGameFilters";
 import TagChip from "./TagChip";
 
 // A Games → Platforms card ("Switch", "PC · Steam", ...) as a Platforms filter value — keyed by
@@ -336,8 +335,6 @@ interface GameFilterDialogProps extends GameFilterFieldsProps {
   // Fields switched off in Settings (see useGameFilterPreferences). A hidden field's filter
   // still applies, and still shows as a chip on the list, so it can be cleared from there.
   hiddenFields?: ReadonlySet<GameFilterFieldKey>;
-  // Only the pages that pass these offer saved filters.
-  savedFilters?: Omit<SavedGameFiltersProps, "canSave">;
 }
 
 // How many filter values are set — the Filter button's badge.
@@ -468,7 +465,6 @@ const GameFilterDialog = ({
   open,
   onClose,
   hiddenFields,
-  savedFilters,
 }: GameFilterDialogProps) => {
   const { t } = useTranslation();
   const shown = (field: GameFilterFieldKey) => !hiddenFields?.has(field);
@@ -577,7 +573,6 @@ const GameFilterDialog = ({
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
       <DialogTitle>{t("games.listView.filterTitle")}</DialogTitle>
       <DialogContent>
-      {savedFilters ? <SavedGameFilters {...savedFilters} canSave={hasActiveFilters} /> : null}
       <Grid container spacing={2} sx={{ mt: 0.5 }}>
           {!hideGameTypesField && shown("gameType") ? (
             <Grid size={{ xs: 12, sm: 6 }}>

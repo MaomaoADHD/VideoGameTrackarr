@@ -531,8 +531,8 @@
       "customizeTitle": "Campos de filtro",
       "customizeDescription": "Desative os campos que nunca usa. O filtro de um campo oculto mantém-se e ainda pode ser removido a partir do seu chip.",
       "showAll": "Mostrar todos",
-      "saved": "Filtros guardados",
-      "savedHelp": "Criados na janela Filtros, onde um toque os volta a aplicar."
+      "saved": "Predefinições guardadas",
+      "savedHelp": "Criadas no botão Predefinições das listas de jogos. Edite uma para a renomear ou eliminar."
     }
   },
   "auth": {
@@ -984,14 +984,19 @@
       "aboutTitle": "Sobre",
       "platformsReleaseDatesTitle": "Plataformas e datas de lançamento"
     },
-    "savedFilters": {
-      "heading": "Filtros guardados:",
-      "empty": "Nenhum ainda",
-      "saveButton": "Guardar filtros",
+    "savedViews": {
+      "button": "Predefinições",
+      "modifiedLabel": "{{name}} (alterada)",
+      "empty": "Ainda sem predefinições",
+      "saveCurrent": "Guardar os filtros atuais…",
+      "saveAsNew": "Guardar como nova predefinição…",
+      "update": "Atualizar «{{name}}»",
       "saveTitle": "Guardar estes filtros",
+      "editTitle": "Editar predefinição",
+      "editAria": "Editar {{name}}",
       "nameLabel": "Nome",
-      "replaceHelp": "Substitui o filtro guardado com este nome.",
-      "delete": "Esquecer {{name}}"
+      "replaceHelp": "Substitui a predefinição com este nome.",
+      "deleted": "Predefinição «{{name}}» eliminada"
     }
   },
   "events": {

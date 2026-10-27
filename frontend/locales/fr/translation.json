@@ -531,8 +531,8 @@
       "customizeTitle": "Champs de filtre",
       "customizeDescription": "Désactivez les champs que vous n'utilisez jamais. Le filtre d'un champ masqué est conservé et peut toujours être retiré depuis sa puce.",
       "showAll": "Tout afficher",
-      "saved": "Filtres enregistrés",
-      "savedHelp": "Créés depuis la fenêtre Filtres, où un appui les réapplique."
+      "saved": "Vues enregistrées",
+      "savedHelp": "Créées depuis le bouton Vues des listes de jeux. Modifiez-en une pour la renommer ou la supprimer."
     }
   },
   "auth": {
@@ -984,14 +984,19 @@
       "aboutTitle": "À propos",
       "platformsReleaseDatesTitle": "Plateformes et dates de sortie"
     },
-    "savedFilters": {
-      "heading": "Filtres enregistrés :",
-      "empty": "Aucun pour l'instant",
-      "saveButton": "Enregistrer les filtres",
+    "savedViews": {
+      "button": "Vues",
+      "modifiedLabel": "{{name}} (modifiée)",
+      "empty": "Aucune vue pour l'instant",
+      "saveCurrent": "Enregistrer les filtres actuels…",
+      "saveAsNew": "Enregistrer comme nouvelle vue…",
+      "update": "Mettre à jour « {{name}} »",
       "saveTitle": "Enregistrer ces filtres",
+      "editTitle": "Modifier la vue",
+      "editAria": "Modifier {{name}}",
       "nameLabel": "Nom",
-      "replaceHelp": "Remplace le filtre enregistré sous ce nom.",
-      "delete": "Oublier {{name}}"
+      "replaceHelp": "Remplace la vue enregistrée sous ce nom.",
+      "deleted": "Vue « {{name}} » supprimée"
     }
   },
   "events": {

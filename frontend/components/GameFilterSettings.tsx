@@ -1,9 +1,8 @@
 import { useState } from "react";
-import CancelIcon from "@mui/icons-material/Cancel";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import TuneIcon from "@mui/icons-material/Tune";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Chip from "@mui/material/Chip";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -18,6 +17,7 @@ import {
   useGameFilterPreferences,
   type GameFilterFieldKey,
 } from "../hooks/useGameFilterPreferences";
+import { useViewEditor } from "./GameListPresets";
 import { SettingRow } from "./SettingsLayout";
 
 interface CustomizeFilterFieldsDialogProps {
@@ -74,12 +74,13 @@ const CustomizeFilterFieldsDialog = ({ hidden, saving, onClose, onSave }: Custom
   );
 };
 
-// Settings rows for the game lists' Filter dialog: which fields it shows, and the filters
-// saved from it (made and applied in the dialog itself; only forgotten from here).
+// Settings rows for the game lists' Filter dialog: which fields it shows, and the views saved
+// from the lists' Views button (made and applied there; renamed or deleted from either place).
 const GameFilterSettings = () => {
   const { t } = useTranslation();
   const [customizing, setCustomizing] = useState(false);
-  const { hiddenFields, setHiddenFields, savedFilters, deleteFilter, saving } = useGameFilterPreferences();
+  const { hiddenFields, setHiddenFields, savedFilters, saving } = useGameFilterPreferences();
+  const { edit, dialog: editDialog } = useViewEditor();
   const shownCount = GAME_FILTER_FIELD_KEYS.length - hiddenFields.size;
 
   return (
@@ -96,16 +97,20 @@ const GameFilterSettings = () => {
         <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, justifyContent: "flex-end" }}>
           {savedFilters.length ? (
             savedFilters.map((saved) => (
-              <Chip
+              <Button
                 key={saved.name}
-                label={saved.name}
-                onDelete={() => deleteFilter(saved.name)}
-                deleteIcon={<CancelIcon aria-label={t("games.savedFilters.delete", { name: saved.name })} />}
-              />
+                size="small"
+                variant="outlined"
+                endIcon={<EditOutlinedIcon />}
+                aria-label={t("games.savedViews.editAria", { name: saved.name })}
+                onClick={() => edit(saved)}
+              >
+                {saved.name}
+              </Button>
             ))
           ) : (
             <Typography variant="body2" sx={{ color: "vgt.text3" }}>
-              {t("games.savedFilters.empty")}
+              {t("games.savedViews.empty")}
             </Typography>
           )}
         </Box>
@@ -121,6 +126,7 @@ const GameFilterSettings = () => {
           }}
         />
       ) : null}
+      {editDialog}
     </>
   );
 };

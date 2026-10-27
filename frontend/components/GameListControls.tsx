@@ -32,6 +32,7 @@ import GameFilterDialog, {
   TIME_TO_BEAT_OPTIONS,
   timeToBeatLabel,
 } from "./GameFilterDialog";
+import GameListPresets from "./GameListPresets";
 import type { GameListView } from "./GameListViews";
 import { CardSizeSlider, ChoiceMenuItem, ListSearchField, SortMenu } from "./ListControls";
 import { ToolbarButton } from "./Page";
@@ -210,6 +211,7 @@ export function useGameListControls(
         onClick={(event) => setMenu({ name: "sort", anchor: event.currentTarget })}
         aria-haspopup="menu"
       />
+      <GameListPresets state={state} canSave={activeFilterCount > 0} />
       <ToolbarButton
         icon={<FilterAltOutlinedIcon />}
         label={t("games.listView.filter")}
@@ -275,12 +277,6 @@ export function useGameListControls(
         hideCollectionsField={hideCollectionsField}
         hideFranchisesField={hideFranchisesField}
         hiddenFields={filterPreferences.hiddenFields}
-        savedFilters={{
-          savedFilters: filterPreferences.savedFilters,
-          onApply: state.applyFilters,
-          onSave: (name) => filterPreferences.saveFilter(name, state.filterSnapshot),
-          onDelete: filterPreferences.deleteFilter,
-        }}
         open={filtersOpen}
         onClose={() => setFiltersOpen(false)}
       />

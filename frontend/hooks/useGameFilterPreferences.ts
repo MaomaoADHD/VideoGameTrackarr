@@ -51,8 +51,8 @@ export const GAME_FILTER_FIELD_LABEL_KEYS: Record<GameFilterFieldKey, string> = 
 
 const NO_SAVED_FILTERS: SavedGameFilter[] = [];
 
-// Which Filter dialog fields are switched off, and the filters saved under a name ("Couch
-// co-op"). Both are kept on the account, like the Overview layout, so every browser has them.
+// Which Filter dialog fields are switched off, and the game list views: filters saved under a
+// name ("Couch co-op"). Both are kept on the account, like the Overview layout, so every browser has them.
 export function useGameFilterPreferences() {
   const queryClient = useQueryClient();
   const { data: user } = useCurrentUser();
@@ -75,16 +75,41 @@ export function useGameFilterPreferences() {
   const setHiddenFields = (hidden: Set<GameFilterFieldKey>) =>
     save.mutate({ gameFilterFields: GAME_FILTER_FIELD_KEYS.map((key) => ({ key, hidden: hidden.has(key) })) });
 
-  // Saving under a name that's already taken replaces that filter.
+  const sorted = (filters: SavedGameFilter[]) => [...filters].sort((a, b) => a.name.localeCompare(b.name));
+
+  // Saving under a name that's already taken replaces that view.
   const saveFilter = (name: string, filters: Record<string, unknown>) =>
     save.mutate({
-      savedGameFilters: [...savedFilters.filter((saved) => saved.name !== name), { name, filters }].sort((a, b) =>
-        a.name.localeCompare(b.name)
-      ),
+      savedGameFilters: sorted([...savedFilters.filter((saved) => saved.name !== name), { name, filters }]),
     });
 
+  // Renaming onto another view's name replaces that one, the same as saving over it.
+  const renameFilter = (from: string, to: string) => {
+    const renamed = savedFilters.find((saved) => saved.name === from);
+    if (!renamed || from === to) return;
+    save.mutate({
+      savedGameFilters: sorted([
+        ...savedFilters.filter((saved) => saved.name !== from && saved.name !== to),
+        { ...renamed, name: to },
+      ]),
+    });
+  };
+
+  // Gone at once; the caller offers Undo, which saves it back (restoreFilter).
   const deleteFilter = (name: string) =>
     save.mutate({ savedGameFilters: savedFilters.filter((saved) => saved.name !== name) });
 
-  return { hiddenFields, setHiddenFields, savedFilters, saveFilter, deleteFilter, saving: save.isPending, saveError: save.isError };
+  const restoreFilter = (saved: SavedGameFilter) => saveFilter(saved.name, saved.filters);
+
+  return {
+    hiddenFields,
+    setHiddenFields,
+    savedFilters,
+    saveFilter,
+    renameFilter,
+    deleteFilter,
+    restoreFilter,
+    saving: save.isPending,
+    saveError: save.isError,
+  };
 }

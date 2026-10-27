@@ -115,6 +115,9 @@ export function useGameListState(prefix: string, { gameTypes = true, steelbook =
   const [timeToBeat, setTimeToBeat] = useSessionState<TimeToBeatRange | null>(key("timeToBeat"), null);
   const [ratingMin, setRatingMin] = useSessionState<number | null>(key("ratingMin"), null);
   const [sort, setSort] = useSessionState<GameSortOption>(key("sort"), "name_asc");
+  // The view (saved filters) last put back on this list; it shows as modified once the filters
+  // drift from it (see GameListPresets).
+  const [activeView, setActiveView] = useSessionState<string | null>(key("activeView"), null);
   // A page without a field ignores whatever was once remembered for it.
   const gameTypesList = useMemo(() => (gameTypes ? gameTypeValues : []), [gameTypes, gameTypeValues]);
   const steelbookOnly = steelbook ? steelbookValue : false;
@@ -358,6 +361,12 @@ export function useGameListState(prefix: string, { gameTypes = true, steelbook =
     timeToBeat,
     ratingMin,
   };
+  // Whether the filters set now are exactly a saved view's: names it doesn't mention count as
+  // cleared, the same way applyFilters reads it.
+  const matchesFilters = (saved: Record<string, unknown>) =>
+    (Object.keys(filterSnapshot) as (keyof typeof filterSnapshot)[]).every(
+      (name) => JSON.stringify(saved[name] ?? CLEARED_FILTERS[name]) === JSON.stringify(filterSnapshot[name])
+    );
   const applyFilters = (saved: Record<string, unknown>) => {
     const value = <K extends keyof typeof CLEARED_FILTERS>(name: K) =>
       (saved[name] ?? CLEARED_FILTERS[name]) as (typeof CLEARED_FILTERS)[K];
@@ -408,6 +417,9 @@ export function useGameListState(prefix: string, { gameTypes = true, steelbook =
     fields,
     filterSnapshot,
     applyFilters,
+    matchesFilters,
+    activeView,
+    setActiveView,
   };
 }
 
