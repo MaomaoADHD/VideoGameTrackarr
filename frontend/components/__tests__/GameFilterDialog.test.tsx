@@ -273,3 +273,49 @@ describe("buildGameFilterParams play filters", () => {
     expect(params.timeToBeatMax).toBe(5);
   });
 });
+
+describe("GameFilterDialog fields switched off in Settings", () => {
+  it("leaves out the hidden fields and keeps the others", () => {
+    renderToolbar({ hiddenFields: new Set(["format", "coop"] as const) });
+
+    expect(screen.queryByRole("combobox", { name: "Formats" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("checkbox", { name: "Co-op" })).not.toBeInTheDocument();
+    expect(screen.getByRole("combobox", { name: "Genres" })).toBeInTheDocument();
+    expect(screen.getByRole("checkbox", { name: "Online multiplayer" })).toBeInTheDocument();
+  });
+});
+
+describe("GameFilterDialog saved filters", () => {
+  const couch = { name: "Couch Switch", filters: { localPlayersMin: 2 } };
+
+  it("puts a saved filter back when its chip is tapped, and forgets it from its cross", async () => {
+    const user = userEvent.setup();
+    const onApply = vi.fn();
+    const onDelete = vi.fn();
+    renderToolbar({ savedFilters: { savedFilters: [couch], onApply, onSave: vi.fn(), onDelete } });
+
+    await user.click(screen.getByRole("button", { name: "Couch Switch" }));
+    expect(onApply).toHaveBeenCalledWith({ localPlayersMin: 2 });
+
+    await user.click(screen.getByLabelText("Forget Couch Switch"));
+    expect(onDelete).toHaveBeenCalledWith("Couch Switch");
+  });
+
+  it("saves the current filters under a name, once there's something to save", async () => {
+    const user = userEvent.setup();
+    const onSave = vi.fn();
+    renderToolbar({ coopOnly: true, savedFilters: { savedFilters: [], onApply: vi.fn(), onSave, onDelete: vi.fn() } });
+
+    await user.click(screen.getByRole("button", { name: "Save filters" }));
+    await user.type(screen.getByRole("textbox", { name: "Name" }), "  Co-op night  ");
+    await user.click(screen.getByRole("button", { name: "Save" }));
+
+    expect(onSave).toHaveBeenCalledWith("Co-op night");
+  });
+
+  it("has nothing to save while no filter is set", () => {
+    renderToolbar({ savedFilters: { savedFilters: [], onApply: vi.fn(), onSave: vi.fn(), onDelete: vi.fn() } });
+
+    expect(screen.getByRole("button", { name: "Save filters" })).toBeDisabled();
+  });
+});

@@ -320,6 +320,82 @@ export function useGameListState(prefix: string, { gameTypes = true, steelbook =
     onRatingMinChange: setRatingMin,
   };
 
+  // The filters as they're set now (not the search or sort) — what a saved filter keeps — and
+  // putting a saved one back. Names are CLEARED_FILTERS's, so a filter missing from a saved one
+  // (saved before it existed) is cleared, and one this version no longer has is ignored.
+  const filterSnapshot = {
+    ownershipStatuses,
+    ownershipExclude,
+    platformIds,
+    platformExclude,
+    tagIds,
+    tagExclude,
+    collectionIds,
+    collectionExclude,
+    franchiseIds,
+    franchiseExclude,
+    gameTypes: gameTypeValues,
+    gameTypeExclude,
+    formats,
+    formatExclude,
+    storefronts,
+    storefrontExclude,
+    playStatuses,
+    playStatusExclude,
+    matchAll,
+    steelbookOnly: steelbookValue,
+    sources: sourceValues,
+    sourceExclude,
+    platformScopes,
+    genreIds,
+    genreExclude,
+    releaseStatuses,
+    releaseYearFrom,
+    releaseYearTo,
+    localPlayersMin,
+    onlineMultiplayerOnly,
+    coopOnly,
+    timeToBeat,
+    ratingMin,
+  };
+  const applyFilters = (saved: Record<string, unknown>) => {
+    const value = <K extends keyof typeof CLEARED_FILTERS>(name: K) =>
+      (saved[name] ?? CLEARED_FILTERS[name]) as (typeof CLEARED_FILTERS)[K];
+    setOwnershipStatuses(value("ownershipStatuses"));
+    setOwnershipExclude(value("ownershipExclude"));
+    setPlatformIds(value("platformIds"));
+    setPlatformExclude(value("platformExclude"));
+    setTagIds(value("tagIds"));
+    setTagExclude(value("tagExclude"));
+    setCollectionIds(value("collectionIds"));
+    setCollectionExclude(value("collectionExclude"));
+    setFranchiseIds(value("franchiseIds"));
+    setFranchiseExclude(value("franchiseExclude"));
+    setGameTypes(value("gameTypes"));
+    setGameTypeExclude(value("gameTypeExclude"));
+    setFormats(value("formats"));
+    setFormatExclude(value("formatExclude"));
+    setStorefronts(value("storefronts"));
+    setStorefrontExclude(value("storefrontExclude"));
+    setPlayStatuses(value("playStatuses"));
+    setPlayStatusExclude(value("playStatusExclude"));
+    setMatchAll(value("matchAll"));
+    setSteelbookOnly(value("steelbookOnly"));
+    setSources(value("sources"));
+    setSourceExclude(value("sourceExclude"));
+    setPlatformScopes(value("platformScopes"));
+    setGenreIds(value("genreIds"));
+    setGenreExclude(value("genreExclude"));
+    setReleaseStatuses(value("releaseStatuses"));
+    setReleaseYearFrom(value("releaseYearFrom"));
+    setReleaseYearTo(value("releaseYearTo"));
+    setLocalPlayersMin(value("localPlayersMin"));
+    setOnlineMultiplayerOnly(value("onlineMultiplayerOnly"));
+    setCoopOnly(value("coopOnly"));
+    setTimeToBeat(value("timeToBeat"));
+    setRatingMin(value("ratingMin"));
+  };
+
   return {
     searchKeyword,
     setSearchKeyword,
@@ -330,6 +406,8 @@ export function useGameListState(prefix: string, { gameTypes = true, steelbook =
     ownership: { statuses: ownershipStatuses, exclude: ownershipExclude, matchAll: matchAll.ownership },
     apiFilters,
     fields,
+    filterSnapshot,
+    applyFilters,
   };
 }
 

@@ -11,6 +11,7 @@ import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
 import Menu from "@mui/material/Menu";
 import { useTranslation } from "react-i18next";
+import { useGameFilterPreferences } from "../hooks/useGameFilterPreferences";
 import type { GameListState } from "../hooks/useGameListState";
 import {
   GAME_SORT_FIELDS,
@@ -88,6 +89,7 @@ export function useGameListControls(
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [menu, setMenu] = useState<{ name: "options" | "view" | "sort"; anchor: HTMLElement } | null>(null);
   const { fields } = state;
+  const filterPreferences = useGameFilterPreferences();
 
   const activeFilterCount = countActiveFilters({
     ownershipStatuses: fields.ownershipStatuses,
@@ -272,6 +274,13 @@ export function useGameListControls(
         hidePlatformsField={hidePlatformsField}
         hideCollectionsField={hideCollectionsField}
         hideFranchisesField={hideFranchisesField}
+        hiddenFields={filterPreferences.hiddenFields}
+        savedFilters={{
+          savedFilters: filterPreferences.savedFilters,
+          onApply: state.applyFilters,
+          onSave: (name) => filterPreferences.saveFilter(name, state.filterSnapshot),
+          onDelete: filterPreferences.deleteFilter,
+        }}
         open={filtersOpen}
         onClose={() => setFiltersOpen(false)}
       />
