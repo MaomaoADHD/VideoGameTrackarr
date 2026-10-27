@@ -332,6 +332,10 @@ def test_extract_play_fields_plain_multiplayer_mode_does_not_mean_online():
     assert massively["online_multiplayer"] is True
 
 
+def test_extract_play_fields_split_screen_mode_without_a_count_means_at_least_two():
+    assert extract_play_fields({"game_modes": [1, 2, 3, 4]})["local_players"] == 2
+
+
 def test_extract_play_fields_single_player_only_game_counts_one_local_player():
     fields = extract_play_fields({"game_modes": [1]})
 

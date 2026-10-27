@@ -130,6 +130,7 @@ _SINGLE_PLAYER_MODE = 1
 # count as online on their own.
 _ONLINE_ONLY_MODES = {5, 6}
 _COOP_MODE = 3
+_SPLIT_SCREEN_MODE = 4
 
 
 def extract_play_fields(igdb_game: dict) -> dict[str, int | bool | None]:
@@ -151,6 +152,9 @@ def extract_play_fields(igdb_game: dict) -> dict[str, int | bool | None]:
     )
     if not local_players and game_modes == {_SINGLE_PLAYER_MODE}:
         local_players = 1
+    # Split screen with no count (LEGO 2K Drive) is still two players on one screen at least.
+    if not local_players and _SPLIT_SCREEN_MODE in game_modes:
+        local_players = 2
     if modes:
         online = any(max(mode.get("onlinemax") or 0, mode.get("onlinecoopmax") or 0) > 1 for mode in modes) or bool(
             game_modes & _ONLINE_ONLY_MODES
