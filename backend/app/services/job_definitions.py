@@ -6,6 +6,7 @@ from app.services import (
     itad_jobs,
     job_registry,
     platprices_jobs,
+    players_fill_jobs,
     resync_jobs,
     steam_jobs,
 )
@@ -23,6 +24,7 @@ def register_builtin_jobs() -> None:
     job_registry.register(resync_jobs.DEFINITION_COLLECTIONS)
     job_registry.register(resync_jobs.DEFINITION_SERIES)
     job_registry.register(alternative_names_job.DEFINITION_ALTERNATIVE_NAMES)
+    job_registry.register(players_fill_jobs.DEFINITION_PLAYERS_FILL)
     job_registry.register(igdb_import_jobs.DEFINITION_IGDB_MATCH)
     job_registry.register(igdb_import_jobs.DEFINITION_IGDB_LINK)
     job_registry.register(steam_jobs.DEFINITION_STEAM_IMPORT)
