@@ -21,6 +21,7 @@ import GameProgressSection from "./GameProgressSection";
 import NotesSection from "./NotesSection";
 import NotFoundPage from "./NotFoundPage";
 import TagsSection from "./TagsSection";
+import PlayersSection from "./PlayersSection";
 import YourRatingSection from "./YourRatingSection";
 import Page, { ToolbarButton, ToolbarDivider, useRouteCrumbs } from "./Page";
 
@@ -171,6 +172,7 @@ const GameDetails = () => {
           !isAutoDiscovered ? (
             <>
               <YourRatingSection gameId={gameId} rating={game.rating} />
+              <PlayersSection {...game} />
               <GameLibrarySection
                 gameId={gameId}
                 libraryItems={libraryItems}
