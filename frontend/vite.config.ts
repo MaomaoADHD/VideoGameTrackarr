@@ -55,7 +55,7 @@ export default defineConfig({
         // Same for the DOS/PSP player tab: its HTML must always come from the server, with
         // the COOP/COEP headers that make it cross-origin isolated.
         globIgnores: ["**/emulatorjs/**", "player-isolated.html"],
-        navigateFallbackDenylist: [/^\/emulatorjs\//, /^\/player-isolated\.html/],
+        navigateFallbackDenylist: [/^\/emulatorjs\//, /^\/player-isolated\.html/, /^\/api\//],
         // The API itself is NOT runtime-cached here — TanStack Query's own persisted
         // query cache (see offline/) already covers offline data availability at the
         // app-data layer, which is the more useful place for it (parsed objects ready to
