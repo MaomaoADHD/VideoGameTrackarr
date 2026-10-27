@@ -78,6 +78,8 @@ class BackupGame(_BackupRow):
     screenshot_urls: list[str] = []
     artwork_urls: list[str] = []
     videos: list[BackupGameVideo] = []
+    # The local player count set by hand (the IGDB-backed counts come back with a resync).
+    local_players_override: int | None = None
 
 
 class BackupLibraryItem(_BackupRow):

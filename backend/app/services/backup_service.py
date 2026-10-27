@@ -173,6 +173,7 @@ def build_backup_payload(db: Session, *, roms: bool = False, bios: bool = False)
                 screenshot_urls=custom_media.get(g.id, no_media)[0],
                 artwork_urls=custom_media.get(g.id, no_media)[1],
                 videos=custom_media.get(g.id, no_media)[2],
+                local_players_override=g.local_players_override,
             )
             for g in db.scalars(select(Game))
         ],
@@ -709,6 +710,7 @@ def restore_backup(db: Session, payload: BackupPayload, files_zip: Path | None =
                 parent_game_id=g.parent_game_id,
                 user_rating=user_rating_for(g),
                 screensaver_excluded=g.screensaver_excluded,
+                local_players_override=g.local_players_override,
             )
         )
     db.flush()
