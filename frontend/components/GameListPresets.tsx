@@ -130,7 +130,8 @@ const GameListPresets = ({ state, canSave }: GameListPresetsProps) => {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   const [naming, setNaming] = useState(false);
 
-  const active = savedFilters.find((saved) => saved.name === state.activeView) ?? null;
+  // Clearing every filter leaves the view rather than "modifying" it.
+  const active = canSave ? (savedFilters.find((saved) => saved.name === state.activeView) ?? null) : null;
   const modified = active !== null && !state.matchesFilters(active.filters);
 
   const close = () => setAnchor(null);
