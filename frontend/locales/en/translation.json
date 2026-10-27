@@ -522,6 +522,17 @@
     },
     "regional": {
       "heading": "Regional"
+    },
+    "gameFilters": {
+      "heading": "Game lists",
+      "fields": "Filter fields",
+      "fieldsHelp": "{{shown}} of {{total}} fields shown in the Filter dialog. Saved to your account.",
+      "customizeButton": "Customize",
+      "customizeTitle": "Filter fields",
+      "customizeDescription": "Switch off the fields you never use. A hidden field's filter is kept, and can still be cleared from its chip.",
+      "showAll": "Show all",
+      "saved": "Saved filters",
+      "savedHelp": "Saved from the Filter dialog, where a tap puts them back."
     }
   },
   "auth": {
@@ -972,6 +983,15 @@
     "detail": {
       "aboutTitle": "About",
       "platformsReleaseDatesTitle": "Platforms & release dates"
+    },
+    "savedFilters": {
+      "heading": "Saved filters:",
+      "empty": "None yet",
+      "saveButton": "Save filters",
+      "saveTitle": "Save these filters",
+      "nameLabel": "Name",
+      "replaceHelp": "Replaces the saved filter with this name.",
+      "delete": "Forget {{name}}"
     }
   },
   "events": {

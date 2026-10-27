@@ -522,6 +522,17 @@
     },
     "regional": {
       "heading": "Régional"
+    },
+    "gameFilters": {
+      "heading": "Listes de jeux",
+      "fields": "Champs de filtre",
+      "fieldsHelp": "{{shown}} champs sur {{total}} affichés dans la fenêtre Filtres. Enregistré sur votre compte.",
+      "customizeButton": "Personnaliser",
+      "customizeTitle": "Champs de filtre",
+      "customizeDescription": "Désactivez les champs que vous n'utilisez jamais. Le filtre d'un champ masqué est conservé et peut toujours être retiré depuis sa puce.",
+      "showAll": "Tout afficher",
+      "saved": "Filtres enregistrés",
+      "savedHelp": "Créés depuis la fenêtre Filtres, où un appui les réapplique."
     }
   },
   "auth": {
@@ -972,6 +983,15 @@
     "detail": {
       "aboutTitle": "À propos",
       "platformsReleaseDatesTitle": "Plateformes et dates de sortie"
+    },
+    "savedFilters": {
+      "heading": "Filtres enregistrés :",
+      "empty": "Aucun pour l'instant",
+      "saveButton": "Enregistrer les filtres",
+      "saveTitle": "Enregistrer ces filtres",
+      "nameLabel": "Nom",
+      "replaceHelp": "Remplace le filtre enregistré sous ce nom.",
+      "delete": "Oublier {{name}}"
     }
   },
   "events": {
