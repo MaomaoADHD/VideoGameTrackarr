@@ -320,6 +320,18 @@ def test_extract_play_fields_leaves_lan_only_counts_out_of_local_players():
     assert split_screen["local_players"] == 4
 
 
+def test_extract_play_fields_plain_multiplayer_mode_does_not_mean_online():
+    # Pico Park on IGDB: "Multiplayer" and "Co-operative", no multiplayer_modes rows. It's a
+    # couch game, so neither its player count nor online play can be told from that.
+    fields = extract_play_fields({"game_modes": [2, 3]})
+    massively = extract_play_fields({"game_modes": [5]})
+
+    assert fields["local_players"] is None
+    assert fields["online_multiplayer"] is None
+    assert fields["coop"] is True
+    assert massively["online_multiplayer"] is True
+
+
 def test_extract_play_fields_single_player_only_game_counts_one_local_player():
     fields = extract_play_fields({"game_modes": [1]})
 

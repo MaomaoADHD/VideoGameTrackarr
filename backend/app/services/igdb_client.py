@@ -126,7 +126,9 @@ def extract_store_urls(igdb_game: dict) -> dict[str, str | None]:
 # IGDB's game_modes ids: 1 Single player, 2 Multiplayer, 3 Co-operative, 4 Split screen,
 # 5 MMO, 6 Battle Royale.
 _SINGLE_PLAYER_MODE = 1
-_ONLINE_MODES = {2, 5, 6}
+# Plain "Multiplayer" says nothing about where (Pico Park is a couch game), so only these
+# count as online on their own.
+_ONLINE_ONLY_MODES = {5, 6}
 _COOP_MODE = 3
 
 
@@ -149,12 +151,21 @@ def extract_play_fields(igdb_game: dict) -> dict[str, int | bool | None]:
     )
     if not local_players and game_modes == {_SINGLE_PLAYER_MODE}:
         local_players = 1
-    online = any(max(mode.get("onlinemax") or 0, mode.get("onlinecoopmax") or 0) > 1 for mode in modes)
+    if modes:
+        online = any(max(mode.get("onlinemax") or 0, mode.get("onlinecoopmax") or 0) > 1 for mode in modes) or bool(
+            game_modes & _ONLINE_ONLY_MODES
+        )
+    elif game_modes & _ONLINE_ONLY_MODES:
+        online = True
+    elif game_modes == {_SINGLE_PLAYER_MODE}:
+        online = False
+    else:
+        online = None
     coop = any(mode.get("offlinecoop") or mode.get("onlinecoop") or mode.get("campaigncoop") for mode in modes)
     time_to_beat = igdb_game.get("time_to_beat") or {}
     return {
         "local_players": local_players or None,
-        "online_multiplayer": (online or bool(game_modes & _ONLINE_MODES)) if (modes or game_modes) else None,
+        "online_multiplayer": online,
         "coop": (coop or _COOP_MODE in game_modes) if (modes or game_modes) else None,
         "time_to_beat_main": time_to_beat.get("normally"),
         "time_to_beat_complete": time_to_beat.get("completely"),
