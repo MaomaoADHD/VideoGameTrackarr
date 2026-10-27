@@ -10,6 +10,7 @@ from app.services.igdb_client import (
     IGDB_TOKEN_URL,
     IGDBClient,
     IGDBCredentialsError,
+    extract_play_fields,
     extract_store_urls,
 )
 
@@ -213,6 +214,7 @@ async def test_get_games_by_ids_batches_in_one_request():
     games_route = respx.post(f"{IGDB_API_BASE}/games").mock(
         return_value=httpx.Response(200, json=[{"id": 1, "name": "Game A"}, {"id": 2, "name": "Game B"}])
     )
+    respx.post(f"{IGDB_API_BASE}/game_time_to_beats").mock(return_value=httpx.Response(200, json=[]))
 
     games = await make_client().get_games_by_ids([1, 2])
 
@@ -263,4 +265,64 @@ def test_extract_store_urls_handles_a_game_with_no_websites():
         "nintendo_store_url": None,
         "epic_games_store_url": None,
         "gog_store_url": None,
+    }
+
+
+@respx.mock
+async def test_get_games_by_ids_attaches_batched_time_to_beats():
+    respx.post(IGDB_TOKEN_URL).mock(return_value=TOKEN_RESPONSE)
+    respx.post(f"{IGDB_API_BASE}/games").mock(
+        return_value=httpx.Response(200, json=[{"id": 1, "name": "Game A"}, {"id": 2, "name": "Game B"}])
+    )
+    time_to_beats_route = respx.post(f"{IGDB_API_BASE}/game_time_to_beats").mock(
+        return_value=httpx.Response(200, json=[{"id": 9, "game_id": 1, "normally": 36000, "completely": 72000}])
+    )
+
+    games = await make_client().get_games_by_ids([1, 2])
+
+    assert time_to_beats_route.call_count == 1
+    assert games[0]["time_to_beat"]["normally"] == 36000
+    assert "time_to_beat" not in games[1]
+
+
+def test_extract_play_fields_takes_the_best_platform_row():
+    fields = extract_play_fields(
+        {
+            "game_modes": [1, 2, 3],
+            "multiplayer_modes": [
+                {"platform": 6, "offlinemax": 0, "onlinemax": 4, "onlinecoop": True},
+                {"platform": 130, "offlinemax": 4, "offlinecoopmax": 2},
+            ],
+            "time_to_beat": {"normally": 36000, "completely": 90000},
+            "total_rating": 84.2,
+        }
+    )
+
+    assert fields == {
+        "local_players": 4,
+        "online_multiplayer": True,
+        "coop": True,
+        "time_to_beat_main": 36000,
+        "time_to_beat_complete": 90000,
+        "igdb_rating": 84.2,
+    }
+
+
+def test_extract_play_fields_single_player_only_game_counts_one_local_player():
+    fields = extract_play_fields({"game_modes": [1]})
+
+    assert fields["local_players"] == 1
+    assert fields["online_multiplayer"] is False
+    assert fields["coop"] is False
+
+
+def test_extract_play_fields_leaves_unknown_data_as_none():
+    # No modes at all means IGDB hasn't catalogued how it's played — not "single player".
+    assert extract_play_fields({}) == {
+        "local_players": None,
+        "online_multiplayer": None,
+        "coop": None,
+        "time_to_beat_main": None,
+        "time_to_beat_complete": None,
+        "igdb_rating": None,
     }
