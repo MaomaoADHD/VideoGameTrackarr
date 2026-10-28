@@ -106,12 +106,12 @@ function TouchPickerSheet<T>({
               </ListItemButton>
             );
           })}
+          {shown.length === 0 ? (
+            <Typography color="text.secondary" sx={{ px: 2, py: 1 }}>
+              {t("common.noOptions")}
+            </Typography>
+          ) : null}
         </List>
-        {shown.length === 0 ? (
-          <Typography color="text.secondary" sx={{ px: 2, py: 1 }}>
-            {t("common.noOptions")}
-          </Typography>
-        ) : null}
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>{multiple ? t("common.done") : t("common.close")}</Button>
