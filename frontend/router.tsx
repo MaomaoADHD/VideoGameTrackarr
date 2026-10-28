@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import AppShell from "./AppShell";
 import OverviewPage from "./components/OverviewPage";
+import ConnectorApprovePage from "./components/ConnectorApprovePage";
 import NotFoundPage from "./components/NotFoundPage";
 import RouteErrorBoundary from "./components/RouteErrorBoundary";
 import PublicShell from "./PublicShell";
@@ -30,6 +31,7 @@ import {
   hardwarePlatformsCrumbs,
   insightsCrumbs,
   integrationsCrumbs,
+  connectorApproveCrumbs,
   jobsCrumbs,
   emulationCrumbs,
   missingAddonsCrumbs,
@@ -295,6 +297,11 @@ const router = createBrowserRouter([
             path: "/settings/integrations",
             lazy: page(() => import("./components/IntegrationsPage")),
             handle: { crumbs: integrationsCrumbs },
+          },
+          {
+            path: "/connectors/approve",
+            element: <ConnectorApprovePage />,
+            handle: { crumbs: connectorApproveCrumbs },
           },
           {
             path: "/settings/emulation",

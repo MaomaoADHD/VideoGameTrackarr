@@ -21,6 +21,8 @@ from app.api.routes import (
     catalog_resync,
     collections,
     companies,
+    connect,
+    connectors,
     danger_zone,
     dashboard,
     device,
@@ -353,6 +355,8 @@ app.include_router(version.router)
 app.include_router(share.router)
 app.include_router(integrations.router)
 app.include_router(integrations.download_router)
+app.include_router(connectors.router)
+app.include_router(connect.router)
 app.include_router(sales_tracking.router)
 app.include_router(roms.router)
 app.include_router(roms.content_router)

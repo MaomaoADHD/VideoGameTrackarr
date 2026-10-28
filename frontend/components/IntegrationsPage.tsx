@@ -16,6 +16,7 @@ import steamLogo from "../assets/services/steam.png";
 import { useIntegrationsStatus, useUpdateSteamId } from "../hooks/useIntegrations";
 import { TOAST_OPTIONS } from "../utils/toastOptions";
 import GogConnectSection from "./GogConnectSection";
+import ConnectorsSection from "./ConnectorsSection";
 import SettingsFrame from "./SettingsFrame";
 import { SettingRow, SettingsColumn, SettingsGroup } from "./SettingsLayout";
 
@@ -181,6 +182,7 @@ const IntegrationsPage = () => {
             </Typography>
           </SettingRow>
         </SettingsGroup>
+        <ConnectorsSection />
       </SettingsColumn>
     </SettingsFrame>
   );

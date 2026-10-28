@@ -5,6 +5,7 @@ from app.services import (
     igdb_import_jobs,
     itad_jobs,
     job_registry,
+    nintendo_titledb_jobs,
     platprices_jobs,
     players_fill_jobs,
     resync_jobs,
@@ -32,3 +33,4 @@ def register_builtin_jobs() -> None:
     job_registry.register(gog_jobs.DEFINITION_GOG_DOWNLOAD)
     job_registry.register(itad_jobs.DEFINITION_ITAD_REFRESH)
     job_registry.register(platprices_jobs.DEFINITION_PLATPRICES_REFRESH)
+    job_registry.register(nintendo_titledb_jobs.DEFINITION_NINTENDO_TITLEDB)
