@@ -34,7 +34,14 @@ interface ViewNameDialogProps {
 
 // Name a new view, or rename/delete one. Mounted only while open, so it starts from
 // initialName each time.
-export const ViewNameDialog = ({ title, initialName, takenNames, onClose, onSave, onDelete }: ViewNameDialogProps) => {
+export const ViewNameDialog = ({
+  title,
+  initialName,
+  takenNames,
+  onClose,
+  onSave,
+  onDelete,
+}: ViewNameDialogProps) => {
   const { t } = useTranslation();
   const [name, setName] = useState(initialName);
   const trimmed = name.trim();
@@ -101,7 +108,11 @@ export function useViewEditor(onRenamed?: (from: string, to: string) => void) {
         const deleted = editing;
         deleteFilter(deleted.name);
         setEditing(null);
-        showUndoToast(t("games.savedViews.deleted", { name: deleted.name }), () => restoreFilter(deleted), UNDO_DELAY_MS);
+        showUndoToast(
+          t("games.savedViews.deleted", { name: deleted.name }),
+          () => restoreFilter(deleted),
+          UNDO_DELAY_MS
+        );
       }}
     />
   ) : null;
@@ -150,8 +161,15 @@ export function useGameListPresets(
       <Menu anchorEl={anchor} open={anchor !== null} onClose={close}>
         {savedFilters.length ? (
           savedFilters.map((saved) => (
-            <MenuItem key={saved.name} selected={saved.name === active?.name} onClick={() => apply(saved)} sx={{ pr: 0.5 }}>
-              <ListItemIcon>{saved.name === active?.name ? <CheckIcon fontSize="small" /> : null}</ListItemIcon>
+            <MenuItem
+              key={saved.name}
+              selected={saved.name === active?.name}
+              onClick={() => apply(saved)}
+              sx={{ pr: 0.5 }}
+            >
+              <ListItemIcon>
+                {saved.name === active?.name ? <CheckIcon fontSize="small" /> : null}
+              </ListItemIcon>
               <ListItemText primary={saved.name} />
               <IconButton
                 size="small"
@@ -191,7 +209,9 @@ export function useGameListPresets(
             setNaming(true);
           }}
         >
-          <ListItemText primary={modified ? t("games.savedViews.saveAsNew") : t("games.savedViews.saveCurrent")} />
+          <ListItemText
+            primary={modified ? t("games.savedViews.saveAsNew") : t("games.savedViews.saveCurrent")}
+          />
         </MenuItem>
       </Menu>
       {naming ? (

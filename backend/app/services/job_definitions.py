@@ -1,5 +1,6 @@
 from app.services import (
     alternative_names_job,
+    connector_pull_jobs,
     event_sync_jobs,
     gog_jobs,
     igdb_import_jobs,
@@ -31,6 +32,7 @@ def register_builtin_jobs() -> None:
     job_registry.register(steam_jobs.DEFINITION_STEAM_IMPORT)
     job_registry.register(gog_jobs.DEFINITION_GOG_IMPORT)
     job_registry.register(gog_jobs.DEFINITION_GOG_DOWNLOAD)
+    job_registry.register(connector_pull_jobs.DEFINITION_CONNECTORS_PULL)
     job_registry.register(itad_jobs.DEFINITION_ITAD_REFRESH)
     job_registry.register(platprices_jobs.DEFINITION_PLATPRICES_REFRESH)
     job_registry.register(nintendo_titledb_jobs.DEFINITION_NINTENDO_TITLEDB)

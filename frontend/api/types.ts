@@ -1396,7 +1396,7 @@ export interface ToysToLifeNote {
   updatedAt: string;
 }
 
-export type ConnectorKind = "custom" | "nx_remote_launcher";
+export type ConnectorKind = "custom" | "nx_remote_launcher" | "epic" | "gog" | "csv";
 // What a complete sync does with a game the device no longer reports.
 export type ConnectorAbsentMode = "keep" | "note" | "remove";
 
@@ -1421,6 +1421,8 @@ export interface Connector {
   lastSyncAt: string | null;
   lastSyncResult: { added: number; existing: number; absent: number; unknown: string[] } | null;
   devices: ConnectorDevice[];
+  // A store connector (Epic, GOG) signed in to its store.
+  signedIn: boolean;
   presentCount: number;
   absentCount: number;
 }
@@ -1429,6 +1431,22 @@ export type ConnectorInput = Pick<
   Connector,
   "name" | "slug" | "platformId" | "mediaFormat" | "digitalStorefront" | "wishlist" | "absentMode"
 > & { kind?: ConnectorKind };
+
+export interface ConnectorSyncResult {
+  added: number;
+  existing: number;
+  absent: number;
+  unknown: string[];
+}
+
+// One game for a connector: the device's (or file's) own id for it, a name, an IGDB id when
+// known, and the most players on one screen.
+export interface ReportedGame {
+  id: string;
+  name?: string;
+  igdbId?: number;
+  players?: number;
+}
 
 export interface ConnectorPairing {
   code: string;
