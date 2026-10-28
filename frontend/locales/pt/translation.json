@@ -433,6 +433,10 @@
         "nintendoTitledb": {
           "name": "Atualizar a lista de títulos da Nintendo",
           "description": "Descarrega a base de títulos da Nintendo Switch com que os conectores NX Remote Launcher traduzem identificadores em nomes e número de jogadores."
+        },
+        "connectorsPull": {
+          "name": "Sincronizar as lojas",
+          "description": "Lê a biblioteca de cada conector Epic Games Store e GOG ligado e adiciona o que é novo."
         }
       },
       "runHeading": "Executar",
@@ -1772,6 +1776,18 @@
       "nx_remote_launcher": {
         "name": "NX Remote Launcher",
         "description": "A Nintendo Switch sending its installed title IDs; names and player counts come from the Nintendo title database."
+      },
+      "epic": {
+        "name": "Epic Games Store",
+        "description": "Lê a sua biblioteca da Epic Games Store depois de ligar a conta (só jogos), todas as noites."
+      },
+      "gog": {
+        "name": "GOG",
+        "description": "Lê a sua biblioteca GOG depois de ligar a conta, todas as noites."
+      },
+      "csv": {
+        "name": "Importação CSV",
+        "description": "Adiciona os jogos de um ficheiro CSV: Battle.net, EA app ou qualquer lista."
       }
     },
     "absentModes": {
@@ -1811,6 +1827,28 @@
       "unknownCode": "Código desconhecido ou expirado.",
       "check": "Continuar",
       "backToIntegrations": "Voltar às Integrações"
+    },
+    "store": {
+      "steps_epic": "1. Abra a página de início de sessão da Epic e entre. 2. Termina numa página de texto: copie o valor authorizationCode (ou a página inteira) e cole-o aqui.",
+      "steps_gog": "1. Abra a página de início de sessão da GOG e entre. 2. Termina numa página em branco: copie o endereço (contém code=...) e cole-o aqui.",
+      "openLogin": "Abrir a página de início de sessão",
+      "pasteLabel": "Código, página ou endereço",
+      "signIn": "Ligar",
+      "signInDone": "Ligado. A primeira sincronização acontece na próxima sincronização das lojas.",
+      "signInError": "A loja recusou: o código pode ter expirado.",
+      "loginUrlError": "Não foi possível abrir a página de início de sessão.",
+      "signedIn": "Ligado",
+      "syncNow": "Sincronizar agora",
+      "syncStarted": "Sincronização das lojas iniciada: o progresso aparece em Definições -> Tarefas.",
+      "syncError": "Não foi possível iniciar a sincronização.",
+      "signInAgain": "Voltar a ligar"
+    },
+    "csv": {
+      "format": "Um ficheiro CSV com uma coluna name (ou title) e, opcionalmente, igdb_id e id. Sem linha de cabeçalho, a primeira coluna é o nome. Os jogos são adicionados com as predefinições deste conector; nada é removido.",
+      "pick": "Importar um ficheiro CSV",
+      "empty": "Nenhum jogo encontrado neste ficheiro.",
+      "done": "{{added}} adicionados, {{existing}} já existentes.",
+      "error": "Não foi possível importar este ficheiro."
     }
   }
 }

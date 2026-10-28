@@ -32,7 +32,14 @@ describe("AutocompleteSelect on a touch screen", () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
     render(
-      <AutocompleteSelect label="Rating" options={OPTIONS} value={null} onChange={onChange} getOptionLabel={(o) => o} placeholder="All" />
+      <AutocompleteSelect
+        label="Rating"
+        options={OPTIONS}
+        value={null}
+        onChange={onChange}
+        getOptionLabel={(o) => o}
+        placeholder="All"
+      />
     );
 
     expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
@@ -47,7 +54,14 @@ describe("AutocompleteSelect on a touch screen", () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
     render(
-      <AutocompleteSelect label="Rating" options={OPTIONS} value="Indie" onChange={onChange} getOptionLabel={(o) => o} placeholder="All" />
+      <AutocompleteSelect
+        label="Rating"
+        options={OPTIONS}
+        value="Indie"
+        onChange={onChange}
+        getOptionLabel={(o) => o}
+        placeholder="All"
+      />
     );
 
     await user.click(screen.getByRole("combobox", { name: "Rating" }));
@@ -58,7 +72,15 @@ describe("AutocompleteSelect on a touch screen", () => {
 
   it("keeps type-to-filter with a mouse", () => {
     mockTouchScreen(false);
-    render(<AutocompleteSelect label="Rating" options={OPTIONS} value={null} onChange={vi.fn()} getOptionLabel={(o) => o} />);
+    render(
+      <AutocompleteSelect
+        label="Rating"
+        options={OPTIONS}
+        value={null}
+        onChange={vi.fn()}
+        getOptionLabel={(o) => o}
+      />
+    );
 
     expect(screen.getByRole("combobox", { name: "Rating" })).toHaveAttribute("type", "text");
   });
@@ -70,7 +92,13 @@ describe("AutocompleteMultiSelect on a touch screen", () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
     const { rerender } = render(
-      <AutocompleteMultiSelect label="Genres" options={OPTIONS} value={[]} onChange={onChange} getOptionLabel={(o) => o} />
+      <AutocompleteMultiSelect
+        label="Genres"
+        options={OPTIONS}
+        value={[]}
+        onChange={onChange}
+        getOptionLabel={(o) => o}
+      />
     );
 
     expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
@@ -80,9 +108,17 @@ describe("AutocompleteMultiSelect on a touch screen", () => {
 
     await user.keyboard("{Escape}");
     rerender(
-      <AutocompleteMultiSelect label="Genres" options={OPTIONS} value={["Puzzle"]} onChange={onChange} getOptionLabel={(o) => o} />
+      <AutocompleteMultiSelect
+        label="Genres"
+        options={OPTIONS}
+        value={["Puzzle"]}
+        onChange={onChange}
+        getOptionLabel={(o) => o}
+      />
     );
-    await user.click(within(screen.getByRole("button", { name: "Puzzle" })).getByTestId("CancelIcon"));
+    await user.click(
+      within(screen.getByRole("button", { name: "Puzzle" })).getByTestId("CancelIcon")
+    );
     expect(onChange).toHaveBeenLastCalledWith([]);
   });
 });
