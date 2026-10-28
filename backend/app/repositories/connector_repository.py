@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from app.models.connector import Connector, ConnectorDevice, ConnectorGame, ConnectorPairing
+from app.models.connector import Connector, ConnectorDevice, ConnectorGame, ConnectorKind, ConnectorPairing
 
 # Repositories only add/flush/delete — they never commit (see game_repository.py).
 
@@ -61,3 +61,16 @@ def get_pairing_by_poll_token_hash(db: Session, connector_id: int, poll_token_ha
 def delete_expired_pairings(db: Session, now: datetime) -> None:
     for pairing in db.scalars(select(ConnectorPairing).where(ConnectorPairing.expires_at < now)):
         db.delete(pairing)
+
+
+def nintendo_title_ids_by_game(db: Session) -> dict[int, list[str]]:
+    """The Switch title IDs NX Remote Launcher connectors reported, per library game."""
+    rows = db.execute(
+        select(ConnectorGame.game_id, ConnectorGame.external_id)
+        .join(Connector, Connector.id == ConnectorGame.connector_id)
+        .where(Connector.kind == ConnectorKind.NX_REMOTE_LAUNCHER, ConnectorGame.game_id.is_not(None))
+    )
+    title_ids: dict[int, list[str]] = {}
+    for game_id, external_id in rows:
+        title_ids.setdefault(game_id, []).append(external_id)
+    return title_ids
