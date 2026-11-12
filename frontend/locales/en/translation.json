@@ -522,6 +522,10 @@
         "linked_addons": {
           "name": "Linked Add-ons",
           "description": "Link add-ons to more games than IGDB does, e.g. DLC IGDB lists under a game's Standard edition that also works with its Premium edition. Adds a Linked section to game pages, Works with on add-on pages, add-ons from an edition's base game, and Settings → Linked Add-ons. Turning it off keeps your links for later."
+        },
+        "filter_presets": {
+          "name": "Filter Presets",
+          "description": "Save the game lists' filters under a name (\"Couch co-op\") and put them back in one tap. Adds a Presets button next to Filter, and your saved presets to Settings → General → Game lists."
         }
       }
     },
