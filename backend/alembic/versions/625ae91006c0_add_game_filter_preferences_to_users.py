@@ -1,6 +1,6 @@
 """add game filter preferences to users
 
-Revision ID: a8c0e2f4b6d9
+Revision ID: 625ae91006c0
 Revises: c4e6a8b0d2f7
 Create Date: 2026-10-27 16:00:00.000000
 
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'a8c0e2f4b6d9'
+revision: str = '625ae91006c0'
 down_revision: Union[str, None] = 'c4e6a8b0d2f7'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
