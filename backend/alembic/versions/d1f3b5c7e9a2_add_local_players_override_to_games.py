@@ -1,7 +1,7 @@
 """add local_players_override to games
 
 Revision ID: d1f3b5c7e9a2
-Revises: a8c0e2f4b6d9
+Revises: 625ae91006c0
 Create Date: 2026-10-27 23:00:00.000000
 
 """
@@ -13,7 +13,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision: str = 'd1f3b5c7e9a2'
-down_revision: Union[str, None] = 'a8c0e2f4b6d9'
+down_revision: Union[str, None] = '625ae91006c0'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
